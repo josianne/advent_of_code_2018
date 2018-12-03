@@ -1,7 +1,9 @@
 package xyz
 
 fun main(args: Array<String>) {
-    val inputs = loadData("/part_1-1.txt")
+    println("====== Day One ======")
 
-    println(DayOne.calculatePartOne(data = inputs))
+    val day01 = loadData("/part_1.txt")
+    println("Part one: " + DayOne.calculatePartOne(data = day01))
+    println("Part two: " + DayOne.calculatePartTwo(data = day01))
 }
