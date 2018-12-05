@@ -4,6 +4,7 @@ object DayTwo {
     fun calculatePartOne(data: List<String>): Int {
         val multiples = data.fold(listOf(0, 0)) { acc, string ->
             val charCounts = string.groupingBy { it }.eachCount().values
+
             listOf(acc[0] + charCounts.contains(2).toInt(), acc[1] + charCounts.contains(3).toInt())
         }
 
@@ -11,21 +12,17 @@ object DayTwo {
     }
 
     fun calculatePartTwo(data: List<String>): String {
-        data.forEachIndexed { index, currentWord ->
-            data.subList(index, data.size).forEach { comparedWord ->
-                if (hammingDistance(stringOne = currentWord, stringTwo = comparedWord) == 1)
-                    return currentWord.filterIndexed { index, c -> c == comparedWord[index] }
+        val permutations = HashSet<String>()
+
+        data.forEach { string ->
+            string.forEachIndexed { index, _ ->
+                if (!permutations.add(string.replaceRange(index, index + 1, "_"))) {
+                    return string.removeRange(index, index + 1)
+                }
             }
         }
 
         return ""
-    }
-
-    fun hammingDistance(stringOne: CharSequence, stringTwo: CharSequence): Int? {
-        if (stringOne == stringTwo) return 0
-        if (stringOne.length != stringTwo.length) return null
-
-        return stringOne.zip(stringTwo).sumBy { (it.first != it.second).toInt() }
     }
 
     private fun Boolean.toInt() = if (this) 1 else 0
